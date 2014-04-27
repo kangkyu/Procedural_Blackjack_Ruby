@@ -2,6 +2,10 @@
 deck = ['h','c','s','d'].product ['2','3','4','5','6','7','8','9','10','A','Q','K','J']
 deck.shuffle!
 
+# bet the money
+puts "player chips in: (in dollars)"
+money_on_bet = gets.chomp
+
 # first deal of the round
 dealer_hand = []
 player_hand = []
@@ -67,9 +71,24 @@ player_hand.each do |card|
   puts " => " + card_name(card)
 end
 
+def blackjack_win(bet)
+  bet.to_i * 2
+end
+def lose(bet)
+  bet.to_i * -1
+end
+def win(bet)
+  bet.to_i * 1
+end
+def draw(bet)
+  bet.to_i * 0
+end
+  
 # check if player BlackJack
 if points_hand(player_hand) == 21
   puts "player BlackJack"
+  puts "player bet was #{money_on_bet}"
+  puts "player won #{blackjack_win(money_on_bet)}"
   exit
 end
 
@@ -91,6 +110,8 @@ while true
 
     if points_hand(player_hand) > 21
       puts "player busts"
+      puts "player bet was #{money_on_bet}"
+      puts "player won #{lose(money_on_bet)}"
       exit
     elsif points_hand(player_hand) == 21
       break
@@ -110,6 +131,8 @@ end
 
 if points_hand(dealer_hand) == 21
   puts "dealer BlackJack"
+  puts "player bet was #{money_on_bet}"
+  puts "player won #{lose(money_on_bet)}"
   exit
 end
 
@@ -129,6 +152,8 @@ while true
     
     if points_hand(dealer_hand) > 21
       puts "dealer busts"
+      puts "player bet was #{money_on_bet}"
+      puts "player won #{win(money_on_bet)}"
       exit
     elsif points_hand(dealer_hand) == 21
       break
@@ -144,10 +169,16 @@ end
 player_this_much_more = points_hand(player_hand) - points_hand(dealer_hand)
 if player_this_much_more == 0
   puts "it's push. nobody won"
+  puts "player bet was #{money_on_bet}"
+  puts "player won #{draw(money_on_bet)}"
 elsif player_this_much_more > 0
   puts "player won."
+  puts "player bet was #{money_on_bet}"
+  puts "player won #{win(money_on_bet)}"
 else # player_this_much_more < 0
   puts "dealer won."
+  puts "player bet was #{money_on_bet}"
+  puts "player won #{lose(money_on_bet)}"
 end
 
 exit
